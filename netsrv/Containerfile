@@ -19,8 +19,8 @@ RUN microdnf install -y \
 RUN mkdir -p /etc/containers/systemd
 
 COPY \
-  hivemq/* \
-  step-ca/* \
+  hivemq-quadlet/* \
+  step-ca-quadlet/* \
   /etc/containers/systemd/
 
 COPY init_volumes/ \
@@ -32,8 +32,8 @@ COPY lighttpd/ \
 COPY haproxy/ \
   /etc/haproxy/
 
-COPY dnsmasq/ \
-  /etc/
+COPY dnsmasq.d/ \
+  /etc/dnsmasq.d/
 
 # -- Finalize container setup --
 RUN bootc container lint
