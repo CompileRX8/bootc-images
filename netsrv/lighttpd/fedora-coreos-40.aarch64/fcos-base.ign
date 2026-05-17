@@ -1,0 +1,40 @@
+{
+  "ignition": {
+    "version": "3.3.0"
+  },
+  "passwd": {
+    "users": [
+      {
+        "name": "core",
+        "sshAuthorizedKeys": [
+          "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDDZWWUrRYQwTS9skxJQgN8HXqGFVhLkO7bIo+DZ3nMFL3keCsSDvZCUAgKExT4TXZIBqcK9W19m2p9K1JsxTx0Lhte5W87EJVuHbFv3XVS0AVVj7Ms2XMPWBI3AJc0BlY5Wxf/Q0ABeFtrVqyNWJso8WW4QIv1+Q5KeY+4Jtafs7Qxer4pgSsVQ30vCJDcz+S21534kGO7ye/qxsksHbWmOdzGtB4+OCBDNH0cW0daNqIQtkOMAA9EbWwAjw88+KlkulFpBlgpIIvy5TignjXsotROu7jXht+VoD02VWWnMWcT8rGKtEXuqcGWAY09YMHo+D/HhuV/UdRUFpW75qml ryan@engineering.highley.net",
+          "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDTizBhNGcSCqDeRkRl9ItR70LcVt5KEzgW6Ajjwrj5PHBWmCBsQRBI50GURQRFBfMN8NJlio6V1Jk/3/NCWSgSDXlXruPt5dewrgVLsh17xkeAC7Lz2E96/AxVbZYRP0ucVjwBAHCRQuH7xLAPm5uD93orCaGdq3PDTRb1vWsnVYRlDKHnbzsTNK6aX1dJCggy5MEsAkAMMvcmgTMIhdsPyLvqrjWZrsnh3zHmdc0/7yoq4ZDnyIMA5O6XaUsIEGvuu7Ogs9xXoRCh9KNkqLodr4WyLb7VMDn59M/W6i8nlohBJae8KvkmoTM2g4EtVK0D55IEqB4BeHVZz6q90yrWMdrqgegyaaQvVhGXYRdsPwNtVpJxi3ggfWUzMbX+GZiSR6MLTfNNtfd1/W63V1tPs6U5pIlEg8CUZAJY1+TcgBfYmfgtxVVmMra8BbZCnm34GaOOK0dhEIVKd78gyBMn0KLtTZ130FfrC0ofnBLKebeh4HMiRX4FDHTiTWICznU= ryan@greybeard.highley.net"
+        ]
+      },
+      {
+        "groups": [
+          "wheel",
+          "sudo"
+        ],
+        "name": "ryan",
+        "passwordHash": "$y$j9T$sk4BcEF9icOiZYXncYtRj0$WJSVjIQn/bg41DLdwB84m30M7EPVzxjl2wXK7ZXB/21",
+        "sshAuthorizedKeys": [
+          "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDDZWWUrRYQwTS9skxJQgN8HXqGFVhLkO7bIo+DZ3nMFL3keCsSDvZCUAgKExT4TXZIBqcK9W19m2p9K1JsxTx0Lhte5W87EJVuHbFv3XVS0AVVj7Ms2XMPWBI3AJc0BlY5Wxf/Q0ABeFtrVqyNWJso8WW4QIv1+Q5KeY+4Jtafs7Qxer4pgSsVQ30vCJDcz+S21534kGO7ye/qxsksHbWmOdzGtB4+OCBDNH0cW0daNqIQtkOMAA9EbWwAjw88+KlkulFpBlgpIIvy5TignjXsotROu7jXht+VoD02VWWnMWcT8rGKtEXuqcGWAY09YMHo+D/HhuV/UdRUFpW75qml ryan@engineering.highley.net",
+          "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDTizBhNGcSCqDeRkRl9ItR70LcVt5KEzgW6Ajjwrj5PHBWmCBsQRBI50GURQRFBfMN8NJlio6V1Jk/3/NCWSgSDXlXruPt5dewrgVLsh17xkeAC7Lz2E96/AxVbZYRP0ucVjwBAHCRQuH7xLAPm5uD93orCaGdq3PDTRb1vWsnVYRlDKHnbzsTNK6aX1dJCggy5MEsAkAMMvcmgTMIhdsPyLvqrjWZrsnh3zHmdc0/7yoq4ZDnyIMA5O6XaUsIEGvuu7Ogs9xXoRCh9KNkqLodr4WyLb7VMDn59M/W6i8nlohBJae8KvkmoTM2g4EtVK0D55IEqB4BeHVZz6q90yrWMdrqgegyaaQvVhGXYRdsPwNtVpJxi3ggfWUzMbX+GZiSR6MLTfNNtfd1/W63V1tPs6U5pIlEg8CUZAJY1+TcgBfYmfgtxVVmMra8BbZCnm34GaOOK0dhEIVKd78gyBMn0KLtTZ130FfrC0ofnBLKebeh4HMiRX4FDHTiTWICznU= ryan@greybeard.highley.net"
+        ]
+      }
+    ]
+  },
+  "storage": {
+    "files": [
+      {
+        "path": "/etc/ssh/sshd_config.d/20-enable-passwords.conf",
+        "contents": {
+          "compression": "",
+          "source": "data:,%23%20Fedora%20CoreOS%20disables%20SSH%20password%20login%20by%20default.%0A%23%20Enable%20it.%0A%23%20This%20file%20must%20sort%20before%2040-disable-passwords.conf.%0APasswordAuthentication%20yes%0A"
+        },
+        "mode": 420
+      }
+    ]
+  }
+}

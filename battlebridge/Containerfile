@@ -1,0 +1,25 @@
+FROM quay.io/rhighley/bootc-images:main
+
+# RUN dnf copr enable lionheartp/Hyprland
+#     hyprland \
+
+RUN microdnf install -y \
+    guestfs-tools \
+    libguestfs \
+    libvirt-client \
+    libvirt-client-qemu \
+    libvirt-daemon-driver-qemu \
+    libvirt-daemon-kvm \
+    lightdm-gtk \
+    qemu-img \
+    qemu-kvm \
+    qemu-system-aarch64 \
+    virt-install \
+    virt-manager \
+    virt-viewer \
+&& \
+    dnf clean all
+
+# -- Finalize container setup --
+RUN bootc container lint
+

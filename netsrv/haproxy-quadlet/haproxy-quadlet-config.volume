@@ -1,0 +1,9 @@
+[Unit]
+Description=HAProxy Service Config Volume
+
+[Install]
+WantedBy=default.target
+
+[Volume]
+VolumeName=haproxy-quadlet-config
+

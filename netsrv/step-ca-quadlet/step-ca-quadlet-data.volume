@@ -1,0 +1,12 @@
+[Unit]
+Description=Step CA Service Data Volume
+
+[Install]
+WantedBy=default.target
+
+[Volume]
+
+VolumeName=step-ca-quadlet-data
+
+UID=%U
+GID=%G

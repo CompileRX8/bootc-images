@@ -1,0 +1,15 @@
+DEFAULT primary
+TIMEOUT 30
+PROMPT 0
+MENU TITLE PXELinux boot options
+LABEL primary
+    MENU LABEL Fedora CoreOS on TFTP
+    KERNEL fedora-coreos-40.aarch64/vmlinux
+    FDT dtb/nvidia/tegra186-p3509-0000+p3636-0001.dtb
+    APPEND initrd=fedora-coreos-40.aarch64/initrd.img coreos.live.rootfs_url=http://10.0.0.250:8080/fedora-coreos-40.aarch64/rootfs.img ignition.config.url=http://10.0.0.250:8080/fedora-coreos-40.aarch64/fcos-base.ign ignition.firstboot mitigations=auto,nosmt fbcon=map:0 net.ifnames=0 sdhci_tegra.en_boot_part_access=1 console=ttyS0,115200 console=tty1 rd.shell rd.debug
+LABEL fcos-base-live
+    MENU LABEL Fedora CoreOS on HTTP
+    KERNEL http://10.0.0.250:8080/jetson-ocp/vmlinuz
+    FDT dtb/nvidia/tegra186-p3509-0000+p3636-0001.dtb
+    APPEND initrd=http://10.0.0.250:8080/jetson-ocp/initramfs.img coreos.live.rootfs_url=http://10.0.0.250:8080/jetson-ocp/rootfs.img ignition.firstboot ignition.platform.id=metal ignition.config.url=http://10.0.0.250:8080/fedora-coreos-40.aarch64/fcos-base.ign
+IPAPPEND 2

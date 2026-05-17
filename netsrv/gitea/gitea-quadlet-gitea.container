@@ -1,0 +1,42 @@
+[Unit]
+Description=Gitea Service
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Restart=always
+
+[Container]
+Image=docker.io/gitea/gitea:1.24.6-rootless
+ContainerName=gitea-quadlet
+ServiceName=gitea
+
+Network=host
+
+Volume=gitea-quadlet-data:/var/lib/gitea
+Volume=gitea-quadlet-config:/etc/gitea
+Volume=/etc/localtime:/etc/localtime:ro
+Volume=/etc/pki:/etc/pki:ro
+
+Secret=gitea-quadlet-cert
+Secret=gitea-quadlet-key
+Secret=gitea-quadlet-ca-chain
+
+PublishPort=3000:3000
+PublishPort=22222:22222
+
+Environment=GITEA__log__MODE=console,file
+Environment=GITEA__server__DOMAIN=%H
+Environment=GITEA__server__PROTOCOL=https
+Environment=GITEA__server__CERT_FILE=/run/secrets/gitea-quadlet-cert
+Environment=GITEA__server__KEY_FILE=/run/secrets/gitea-quadlet-key
+Environment=GITEA__server__SSH_PORT=22222
+Environment=GITEA__server__SSH_LISTEN_PORT=22222
+Environment=GITEA__database__DB_TYPE=sqlite3
+Environment=GITEA__server__ENABLE_ACME=false
+# Environment=GITEA__server__ACME_ACCEPTTOS=true
+# Environment=GITEA__server__ACME_URL=https://localhost:10443/acme/acme/directory
+# Environment=GITEA__server__ACME_DIRECTORY=https
+# Environment=GITEA__server__ACME_CA_ROOT=/run/secrets/gitea-quadlet-ca-chain
+# Environment=GITEA__server__ACME_EMAIL=rhighley@redhat.com

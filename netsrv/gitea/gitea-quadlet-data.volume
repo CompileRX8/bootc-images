@@ -1,0 +1,15 @@
+[Unit]
+Description=Gitea Service Data Volume
+
+[Install]
+WantedBy=default.target
+
+[Volume]
+
+VolumeName=gitea-quadlet-data
+
+User=1000
+Group=1000
+
+UID=%U
+GID=%G

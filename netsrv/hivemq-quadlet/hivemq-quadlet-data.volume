@@ -1,0 +1,9 @@
+[Unit]
+Description=HiveMQ Service Data Volume
+
+[Install]
+WantedBy=default.target
+
+[Volume]
+VolumeName=hivemq-quadlet-data
+

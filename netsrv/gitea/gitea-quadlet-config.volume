@@ -1,0 +1,15 @@
+[Unit]
+Description=Gitea Service Config Volume
+
+[Install]
+WantedBy=default.target
+
+[Volume]
+
+VolumeName=gitea-quadlet-config
+
+User=1000
+Group=1000
+
+UID=%U
+GID=%G

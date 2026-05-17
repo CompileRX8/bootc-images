@@ -1,0 +1,9 @@
+[Unit]
+Description=HiveMQ Service Log Volume
+
+[Install]
+WantedBy=default.target
+
+[Volume]
+VolumeName=hivemq-quadlet-log
+

@@ -1,0 +1,19 @@
+[Unit]
+Description=Step CA Service
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Restart=always
+
+[Container]
+Image=docker.io/smallstep/step-ca
+ContainerName=step-ca-quadlet
+ServiceName=step-ca
+
+Network=host
+
+Volume=step-ca-quadlet-data:/home/step
+
+PublishPort=10443:10443

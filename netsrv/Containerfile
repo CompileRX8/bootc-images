@@ -1,0 +1,40 @@
+FROM quay.io/fedora/fedora-bootc:44
+
+RUN microdnf install -y \
+    cockpit \
+    dnsmasq \
+    git \
+    grub2-efi-aa64-modules \
+    grub2-efi-x64-modules \
+    grub2-tools-extra \
+    haproxy \
+    lighttpd \
+    neovim \
+    openssl \
+    yq \
+    zsh \
+&& \
+    dnf clean all
+
+RUN mkdir -p /etc/containers/systemd
+
+COPY \
+  hivemq/* \
+  step-ca/* \
+  /etc/containers/systemd/
+
+COPY init_volumes/ \
+  /var/lib/containers/storage/volumes/
+
+COPY lighttpd/ \
+  /var/www/lighttpd/
+
+COPY haproxy/ \
+  /etc/haproxy/
+
+COPY dnsmasq/ \
+  /etc/
+
+# -- Finalize container setup --
+RUN bootc container lint
+

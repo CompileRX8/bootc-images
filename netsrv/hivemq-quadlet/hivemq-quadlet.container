@@ -1,0 +1,21 @@
+[Unit]
+Description=HiveMQ Service
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Restart=always
+
+[Container]
+Image=docker.io/hivemq/hivemq-ce:latest
+ContainerName=hivemq-quadlet
+ServiceName=hivemq-quadlet
+
+Network=host
+HostName=netsrv.highley.net
+AddHost=netsrv.highley.net:10.0.0.250
+
+Volume=hivemq-quadlet-data:/opt/hivemq/data
+Volume=hivemq-quadlet-log:/opt/hivemq/log
+

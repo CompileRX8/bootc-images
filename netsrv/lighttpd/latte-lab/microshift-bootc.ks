@@ -1,0 +1,45 @@
+lang en_US.UTF-8
+keyboard us
+timezone UTC
+timesource --ntp-pool us.pool.ntp.org
+text
+
+# Partition the disk with hardware-specific boot and swap partitions, adding an
+# LVM volume that contains a 10GB+ system root. The remainder of the volume will
+# be used by the CSI driver for storing data.
+zerombr
+clearpart --all --initlabel
+
+# Create boot and swap partitions as required by the current hardware platform
+reqpart --add-boot
+
+# Add an LVM volume group and allocate a system root logical volume
+part pv.01 --grow
+volgroup rhel pv.01
+logvol / --vgname=rhel --fstype=xfs --size=10240 --name=root
+
+# Only inject a SSH key for root
+rootpw --iscrypted locked
+sshkey --username root "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINWxQPmVLZrwTng7ThkzK+mszNspOrgCYIYU/uql8yKb ryan@battlebridge.highley.net"
+
+# Configure network to use DHCP and activate on boot
+network --bootproto=dhcp --device=link --activate --onboot=on
+
+# Pull a bootc image from a remote registry
+ostreecontainer --url quay.io/rhighley/microshift-bootc-rhel9:v4.20
+
+reboot
+
+%post --log=/dev/console --erroronfail
+
+# Create 'redhat' user account
+useradd --password '$6$qkZPNWsHYwey4sxF$Sa.4oMNtFL3GU4uetalJiQ./25/stDJduE3ftRsX4lwXlh7RhiSbpLSe1DWerBX0sq2IxIzMSDQR./YJWxi/K.' --groups wheel redhat
+
+# Create an OpenShift pull secret file
+cat > /etc/crio/openshift-pull-secret <<'EOF'
+{"auths":{"cloud.openshift.com":{"auth":"b3BlbnNoaWZ0LXJlbGVhc2UtZGV2K3Jobmdwc3JoaWdobGV5MWlieWx5cjMxZ291cTRtbWh4cnlvZnNzM3liOlpFVDY2NjJLNFEyNzNSWElLQVRWRE5VOTVPQUI3SVBXOTdGREVDRVIwQkhSUU5MMFFKRVlITTFTMUFGNlFHTUs=","email":"rhighley@redhat.com"},"quay.io":{"auth":"b3BlbnNoaWZ0LXJlbGVhc2UtZGV2K3Jobmdwc3JoaWdobGV5MWlieWx5cjMxZ291cTRtbWh4cnlvZnNzM3liOlpFVDY2NjJLNFEyNzNSWElLQVRWRE5VOTVPQUI3SVBXOTdGREVDRVIwQkhSUU5MMFFKRVlITTFTMUFGNlFHTUs=","email":"rhighley@redhat.com"},"registry.connect.redhat.com":{"auth":"ODA3MTgzN3x1aGMtMUlCWUxZUjMxR291UTRNTUhYUnlPZlNTM3liOmV5SmhiR2NpT2lKU1V6VXhNaUo5LmV5SnpkV0lpT2lKaU9Ea3hNREpsTm1Wa1ltRTBPRFV4T0RZd00yUm1abVV3TmprMllUZzNNeUo5Lk5GcFRfWXI5eWJjWkVUSTJWRzVPcWdrMzlkek5HbEctdXo4Vm4xdFJ1WGF3RUR6X2pfTUxtdGZxckl3dHFLVnNFRXJuOG0tUG5McFBBV1FpRTdVeFgzWnd4YXd0TEhYTWJyZ0hzNmd3S2t4UzNPR09peDBhX0ZwRW1qM1I2bDRtYTdFYXNKTUhmbGttQVdPYnkwTnFSNnBFM3QyU2doaXU5YmVXMWxZMEZseDB3aWk3MFRLaURHdy1iUTNpMTdEZ2FYX2hZeVRFWHJ5MG9pR0FXNnpfMGtjekgzbGROQUJxcDNwRFFmUU8yWGFIeTdsdjU0N3ZuRHJsV2hMX1dUZlBaeEJ5RHhrZTFXME44YWtEVndBd0RKQnpDTHh4d25wTW45a1hEdllyZG4zNGF6aFRRT29Ja1VwMV9tbDY0bzlaX0JSUFZ5TlRZRnZYUUczOE1KUmVfY1pIWUtnY2JNLVFPRFRhRXMzR3R5V1VZeG9LMGhTSWZndGFyNnRJV19POC0zYzNCSFBySU44TEZrYTFKZXhIVUxkTXJCcHFJYXpTclJSYXUydXdxTTNZU3d0TkROS2RHZFNoTDlWMjROY014d0JwaXBMUVNVLXFyampsVEZqYzBXSjZGZjFCbkdyeHJNdFZ3a3NQdjMyVlE4TE1iaDV3cUQyVUxuWGxzRF92S3hDbzdIRW9fTnZETm55YUtLeVB5dm9NMFBwa1o4b3NoZG5SNUV3WjI0enJObVFDQk5kU2ZqejlMakNkUDdGcjlCWU11Zk5rV0owd3JWVUNfQjdlYTJhMGVYVTJaYzRIbUVqR3FXc2hGQkZicEtoZm9oR3ZvXzE5OFJGVkIydnNwMDh0bHBNTGJKX1o0Z1M1UmlIaDhvZ0ZiRm1yeGx2UTFMaWtCM3BybUF3","email":"rhighley@redhat.com"},"registry.redhat.io":{"auth":"ODA3MTgzN3x1aGMtMUlCWUxZUjMxR291UTRNTUhYUnlPZlNTM3liOmV5SmhiR2NpT2lKU1V6VXhNaUo5LmV5SnpkV0lpT2lKaU9Ea3hNREpsTm1Wa1ltRTBPRFV4T0RZd00yUm1abVV3TmprMllUZzNNeUo5Lk5GcFRfWXI5eWJjWkVUSTJWRzVPcWdrMzlkek5HbEctdXo4Vm4xdFJ1WGF3RUR6X2pfTUxtdGZxckl3dHFLVnNFRXJuOG0tUG5McFBBV1FpRTdVeFgzWnd4YXd0TEhYTWJyZ0hzNmd3S2t4UzNPR09peDBhX0ZwRW1qM1I2bDRtYTdFYXNKTUhmbGttQVdPYnkwTnFSNnBFM3QyU2doaXU5YmVXMWxZMEZseDB3aWk3MFRLaURHdy1iUTNpMTdEZ2FYX2hZeVRFWHJ5MG9pR0FXNnpfMGtjekgzbGROQUJxcDNwRFFmUU8yWGFIeTdsdjU0N3ZuRHJsV2hMX1dUZlBaeEJ5RHhrZTFXME44YWtEVndBd0RKQnpDTHh4d25wTW45a1hEdllyZG4zNGF6aFRRT29Ja1VwMV9tbDY0bzlaX0JSUFZ5TlRZRnZYUUczOE1KUmVfY1pIWUtnY2JNLVFPRFRhRXMzR3R5V1VZeG9LMGhTSWZndGFyNnRJV19POC0zYzNCSFBySU44TEZrYTFKZXhIVUxkTXJCcHFJYXpTclJSYXUydXdxTTNZU3d0TkROS2RHZFNoTDlWMjROY014d0JwaXBMUVNVLXFyampsVEZqYzBXSjZGZjFCbkdyeHJNdFZ3a3NQdjMyVlE4TE1iaDV3cUQyVUxuWGxzRF92S3hDbzdIRW9fTnZETm55YUtLeVB5dm9NMFBwa1o4b3NoZG5SNUV3WjI0enJObVFDQk5kU2ZqejlMakNkUDdGcjlCWU11Zk5rV0owd3JWVUNfQjdlYTJhMGVYVTJaYzRIbUVqR3FXc2hGQkZicEtoZm9oR3ZvXzE5OFJGVkIydnNwMDh0bHBNTGJKX1o0Z1M1UmlIaDhvZ0ZiRm1yeGx2UTFMaWtCM3BybUF3","email":"rhighley@redhat.com"}}}
+EOF
+chmod 600 /etc/crio/openshift-pull-secret
+
+%end
+
