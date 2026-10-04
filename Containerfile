@@ -4,6 +4,7 @@ RUN microdnf install -y \
     arm-image-installer \
     bcvk \
     coreos-installer \
+    fd-find \
     fontawesome-fonts-all \
     gdisk \
     git \
